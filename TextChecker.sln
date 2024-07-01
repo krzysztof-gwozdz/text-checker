@@ -4,6 +4,12 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "TextChecker", "F#\TextCheck
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TextChecker", "C#\TextChecker.csproj", "{748367B7-FD69-4217-B8DD-C94979C9C94D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_data", "test_data", "{CF2EF241-B247-46EB-AE04-1CD8C24D0927}"
+	ProjectSection(SolutionItems) = preProject
+		test_data\complex_book.md = test_data\complex_book.md
+		test_data\simple_book.md = test_data\simple_book.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
