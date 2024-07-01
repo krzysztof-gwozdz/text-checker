@@ -2,6 +2,7 @@
 using Spectre.Console;
 
 const string dataDirectoryPath = @"..\\..\\..\\..\\test_data";
+const string learningTag = "#ripit";
 
 AnsiConsole.Write(new FigletText("C#").Color(Color.Green1));
 
@@ -13,6 +14,8 @@ var files =
                 Content: Markdig.Markdown.Parse(File.ReadAllText(file))
             )
         )
+        .Where(file => file.Content
+            .Any(block => block is HeadingBlock headingBlock && (headingBlock.Inline?.FirstChild.ToString().Contains(learningTag) ?? false)))
         .ToList();
 
 AnsiConsole.MarkupLine("[bold]Files[/]");

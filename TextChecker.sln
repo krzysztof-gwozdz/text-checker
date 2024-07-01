@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_data", "test_data", "{
 	ProjectSection(SolutionItems) = preProject
 		test_data\complex_book.md = test_data\complex_book.md
 		test_data\simple_book.md = test_data\simple_book.md
+		test_data\boring_book.md = test_data\boring_book.md
 	EndProjectSection
 EndProject
 Global
