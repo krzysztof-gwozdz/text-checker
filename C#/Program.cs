@@ -26,7 +26,7 @@ AnsiConsole.MarkupLine("[bold]Headlines[/]");
 files.ForEach(file =>
 {
     Console.WriteLine(file.Name);
-    file.Content.Where(block => block is HeadingBlock).Cast<HeadingBlock>().ToList().ForEach(headingBlock => Console.WriteLine($"  {headingBlock.Inline?.FirstChild}"));
+    file.Content.Where(block => block is HeadingBlock).Cast<HeadingBlock>().ToList().ForEach(headingBlock => Console.WriteLine($"  {headingBlock.Inline?.FirstChild.ToString()?.Replace($" {learningTag}", string.Empty)}"));
 });
 
 return;

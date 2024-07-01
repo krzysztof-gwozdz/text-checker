@@ -33,7 +33,7 @@ files
     content |> Seq.iter (fun block ->
         match block with
         | :? Markdig.Syntax.HeadingBlock as headingBlock -> 
-            AnsiConsole.MarkupLine($"  {headingBlock.Inline.FirstChild}")
+            AnsiConsole.MarkupLine($"""  {headingBlock.Inline.FirstChild.ToString().Replace($" {learningTag}", String.Empty)}""")
         | _ -> ()
     )
 )
