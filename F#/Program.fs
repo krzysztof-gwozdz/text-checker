@@ -13,13 +13,24 @@ AnsiConsole.Write(FigletText("F#"))
 
 let files =
     Directory.GetFiles(dataDirectoryPath, "*.md", SearchOption.TopDirectoryOnly)
-    |> Array.map (fun file -> (Path.GetFileName file, file, Markdown.Parse(File.ReadAllText(file))))
-    |> Array.filter (fun (_, _, content) -> content |> Seq.exists (fun block ->
-        match block with
-        | :? Markdig.Syntax.HeadingBlock as headingBlock -> 
-            headingBlock.Inline.FirstChild.ToString().Contains(learningTag)
-        | _ -> false
-    ))
+    |> Array.map (fun file -> 
+        let fileName = Path.GetFileName(file)
+        let filePath = file
+        let fileContent = File.ReadAllText(file)
+        let parsedMarkdown = Markdown.Parse(fileContent)
+        
+        let headlines = 
+            parsedMarkdown
+            |> Seq.filter (fun block -> block.GetType() = typeof<Markdig.Syntax.HeadingBlock>)
+            |> Seq.cast<Markdig.Syntax.HeadingBlock>
+            |> Seq.map (fun headingBlock -> headingBlock.Inline.FirstChild.ToString())
+            |> Seq.filter (fun heading -> heading.Contains(learningTag))
+            |> Seq.map (fun heading -> heading.Replace($" {learningTag}", String.Empty))
+            |> Seq.toList
+        
+        fileName, filePath, headlines
+    )
+    |> Array.filter (fun (_, _, headlines) -> headlines |> List.isEmpty |> not)
 
 AnsiConsole.MarkupLine("[bold]Files[/]")
 files |> Array.iter (fun (name, _, _) -> printfn $"{name}")
@@ -27,13 +38,6 @@ printSeparator ()
 
 AnsiConsole.MarkupLine("[bold]Headlines[/]")
 
-files
-|> Array.iter (fun (name, _, content) ->
+files |> Array.iter (fun (name, _, headlines) ->
     printfn $"{name}"
-    content |> Seq.iter (fun block ->
-        match block with
-        | :? Markdig.Syntax.HeadingBlock as headingBlock -> 
-            AnsiConsole.MarkupLine($"""  {headingBlock.Inline.FirstChild.ToString().Replace($" {learningTag}", String.Empty)}""")
-        | _ -> ()
-    )
 )
